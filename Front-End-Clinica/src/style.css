@@ -1,46 +1,175 @@
 :root {
-    --color-primario: #385de4;
-    --color-secundario: #5b73ed;
-    --color-terciario: #7f8af6;
+  --color-primario: #385de4;
+  --color-secundario: #5b73ed;
+  --color-terciario: #7f8af6;
 }
-*{
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
+* {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-body{
-    height: 100vh;
-}
-
-header{
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: var(--color-primario);
-    height: 100px;
-    font-size: 2rem;
-
+body {
+  height: 100vh;
 }
 
-.main{
-    margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
+a {
+  color: black !important;
+  text-decoration: none;
 }
 
-img{
-    display: block;
-    border: 2px red solid
+header {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-primario);
+  height: 100px;
+  font-size: 2rem;
 }
 
-.section-card{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 300px;
-    height: 300px;
-    box-shadow: var(--color-terciario) 0px 2px 4px -1px;
+.main {
+  margin-top: 2rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+}
+
+img {
+  display: block;
+  border: 2px red solid;
+}
+
+.icons {
+  /* el fontsize define el tamaño */
+  font-size: 20px;
+  margin: 0.2rem;
+}
+.section-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  height: 300px;
+  box-shadow: var(--color-terciario) 0px 2px 4px -1px;
+}
+
+.paciente_form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.cont_actions_form {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem 0;
+  width: 65%;
+}
+.cont_buscador {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 60%;
+}
+
+.tabla {
+  width: 65%;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+    rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  border-radius: 5px;
+}
+.cont_acciones {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  font-size: x-large;
+}
+.icon_accion {
+  cursor: pointer;
+}
+.icon_buscador{
+    font-size: 2.5rem;
+}
+.input_edit {
+  margin: 0.4em !important;
+  width: 200px;
+  
+}
+
+.input_disabled input{
+    
+    -webkit-text-fill-color:black !important;
+    
+}
+
+.form_edit_paciente {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 2rem;
+}
+.cont_input_edit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header_vent_emergente {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0 1rem;
+}
+.cont_btns_acciones_paciente {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.btn_accion_edit_paciente {
+  width: 200px;
+}
+
+.btn_volver{
+    margin-top:2rem !important
+    
+}
+
+.cont_btn_volver{
+    
+    width: 65%;
+    margin:0 auto
+}
+
+.btn_agregar_paciente{
+  width: 120px;
+}
+
+
+.loader-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+}
+
+.loading {
+  margin: 0 auto;
+}
+
+.mensaje {
+  width: 400px;
+  height: 200px;
+  border-radius: 10px;
+  background-color: #ffffff;
+  text-align: center;
 }

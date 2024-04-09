@@ -3,7 +3,7 @@ import React from 'react'
 export const Header = () => {
   return (
     <header>
-        Bienvenido usuario x
+        Sistema de Consultas
     </header>
   )
 }
