@@ -19,6 +19,7 @@ export const ConsultaForm = () => {
     showVentEmergenteAddConsulta,
     setShowVentEmergenteAddConsulta,
     handleCloseVentEmergenteAddConsulta,
+    apenPaciente
   } = useContext(ConsultaContext);
 
   const { ndocu } = useParams();
@@ -32,7 +33,7 @@ export const ConsultaForm = () => {
   return (
     <div className="paciente_form">
       <h2>CONSULTAS</h2>
-
+      <h3>{apenPaciente}</h3>
       <div className="cont_actions_form">
         <Button
           className="btn_agregar_paciente"

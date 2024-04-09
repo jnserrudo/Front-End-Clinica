@@ -7,6 +7,9 @@ const ConsultaContext=createContext()
 export const ConsultaProvider = ({children}) => {
     const [db, setDb] = useState([]);
     const [ndocuPaciente, setNdocuPaciente] = useState(0);
+
+    const [apenPaciente, setApenPaciente] = useState("");
+
     const [idConsulta, setIdConsulta] = useState(0);
     
     const [consultaSelected, setConsultaSelected] = useState({});
@@ -216,7 +219,7 @@ export const ConsultaProvider = ({children}) => {
 
       let getallconsultas = async () => {
         let consultas = await getAllConsultas(ndocuPaciente);
-        
+        let apen=consultas.recursos.apen
         consultas=consultas.recursos.consultas.map((c)=>{
           return {
             ...c,
@@ -224,6 +227,7 @@ export const ConsultaProvider = ({children}) => {
           }
         })
 
+        setApenPaciente(apen)
         setDb(consultas);
       };
   
@@ -256,6 +260,7 @@ export const ConsultaProvider = ({children}) => {
       showVentEmergenteAddConsulta,
       showVentEmergenteConfConsulta,
       bandLoader,
+      apenPaciente,
       setNdocuPaciente,
       handleCloseConfInsert,
       setShowVentEmergenteConfConsulta,
