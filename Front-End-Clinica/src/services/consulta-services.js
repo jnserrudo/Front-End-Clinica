@@ -35,6 +35,32 @@ export const getConsultaByIdDetalle = async (id) => {
   return data;
 };
 
+
+export const updateConsulta = async (
+  fecha,
+  motivo,
+  diagnostico,
+  tratamiento,
+  evolucion
+) => {
+const res = await fetch(`${entorno}/consultas/:id`, {
+  method: "PUT",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    fecha,
+    motivo,
+    diagnostico,
+    tratamiento,
+    evolucion
+    
+  }),
+});
+const data = await res.json();
+return data;
+};
+
 export const insertConsulta = async (
     ndocu,
     fecha,

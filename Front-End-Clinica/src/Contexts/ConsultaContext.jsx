@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 
-import { getAllConsultas,getConsultaByIdDetalle,getConsultaByNdocu,getConsultaByNdocuDetalle,insertConsulta } from "../services/consulta-services";
+import { getAllConsultas,getConsultaByIdDetalle,getConsultaByNdocu,getConsultaByNdocuDetalle,insertConsulta, updateConsulta } from "../services/consulta-services";
 import { EditOutlined, DragOutlined } from "@ant-design/icons";
 
 const ConsultaContext=createContext()
@@ -13,7 +13,8 @@ export const ConsultaProvider = ({children}) => {
     const [idConsulta, setIdConsulta] = useState(0);
     
     const [consultaSelected, setConsultaSelected] = useState({});
-  
+    const [bandUpdated, setBandUpdated] = useState(false);
+
     const [showVentEmergenteEditConsulta, setShowVentEmergenteEditConsulta] =
       useState(false);
     const [showVentEmergenteAddConsulta, setShowVentEmergenteAddConsulta] =
@@ -46,6 +47,10 @@ export const ConsultaProvider = ({children}) => {
         errors.tratamiento = "El tratamiento es requerido";
       }
   
+      if (!form?.fecha) {
+        errors.fecha= "La fecha es requerida";
+      }
+
       if (!form?.motivo) {
         errors.motivo = "El motivo es requerido";
       }
@@ -80,14 +85,45 @@ export const ConsultaProvider = ({children}) => {
       //de alguna manera actualizar la tabla para que se pueda ver al nuevo Consulta
     };
   
+
+    const handleUpdate=async(consulta)=>{
+      
+      const actualizarConsulta=async(consulta)=>{
+        console.log("se esta por actualizar esta consulta: ",consulta)
+        const update=await updateConsulta(consulta.fecha,consulta.motivo,consulta.diagnostico,consulta.tratamiento,consulta.evolucion)
+        console.log("update: ",update)
+      }
+      if(consulta?.id){
+        //activar loader
+        setBandLoader(true);
+        let resupdate=await  actualizarConsulta(consulta)
+        console.log(resupdate)
+        setBandLoader(false);
+
+      }
+
+
+
+    }
+
     const handleChangeInputInsert = (e) => {
       console.log("name: ", e.target.name, " value: ", e.target.value);
   
       let newValue = {
         ...consultaToInsert,
-        [e.target.name]: e.target.value,
+        [e.target.name]:  e.target.value,
       };
       console.log(newValue);
+      //solo para PRUEBA
+      if (!consultaToInsert?.id){
+        newValue.id=1
+      }
+      //no puedo aplicar el formateo aca, porque estaria modificando el formato del input y no se puede
+      //me daria un error, porque el input de tipo date acepta otro formato, por lo que el formateo lo deberia hacer a la hora de hacer el insert
+      /* if(newValue?.fecha){
+        newValue.fecha=formatDate(newValue?.fecha)
+      } */
+
       setConsultaToInsert(newValue);
     };
   
@@ -100,6 +136,11 @@ export const ConsultaProvider = ({children}) => {
       };
       console.log(newValue);
       setConsultaSelected(newValue);
+
+      setBandUpdated(true)
+
+
+
     };
   
     /* const columns=[
@@ -112,7 +153,9 @@ export const ConsultaProvider = ({children}) => {
     const handleEditConsulta = (consulta) => {
       console.log("editando: ", consulta);
       //setNdocuPaciente(consulta.ndocu); seria al pedo poner con el dni porque son las consultas de una misma persona, siempre tendria el mismo documento, asi que pondremos el id de la consulta
-      setIdConsulta(consulta.id)
+      //PARA PRUEBA agregaremos una id a la consulta cuando veamos una que acabamos de agregar
+      
+      setIdConsulta(consulta?.id)
       setShowVentEmergenteEditConsulta(true);
     };
   
@@ -188,7 +231,9 @@ export const ConsultaProvider = ({children}) => {
       if (bandInsert) {
         //validar para insert
         console.log(" se esta por insertar el Consulta: ", consultaToInsert);
-        await addConsulta(consultaToInsert);
+        let newConsulta=consultaToInsert
+        newConsulta.fecha= formatDate(newConsulta.fecha)
+        await addConsulta(newConsulta);
         handleCloseVentEmergenteConfConsulta();
         handleCloseVentEmergenteAddConsulta();
       }
@@ -207,13 +252,22 @@ export const ConsultaProvider = ({children}) => {
       const date = new Date(dateString);
       
       // Obtener día, mes y año
-      const day = date.getDate().toString().padStart(2, '0');
-      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      let day = date.getDate() + 1;
+      let month = date.getMonth() + 1;
       const year = date.getFullYear();
     
+      // Verificar si el día excede el número de días en el mes actual
+      const daysInMonth = new Date(year, month, 0).getDate();
+      if (day > daysInMonth) {
+        // Si excede, establecer el día en 1 y sumar uno al mes
+        day = 1;
+        month += 1;
+      }
+    
       // Devolver la fecha en formato dd/mm/yyyy
-      return `${day}/${month}/${year}`;
+      return `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
     }
+    
   
     useEffect(() => {
 
@@ -261,6 +315,9 @@ export const ConsultaProvider = ({children}) => {
       showVentEmergenteConfConsulta,
       bandLoader,
       apenPaciente,
+      bandUpdated, 
+      setBandUpdated,
+      formatDate,
       setNdocuPaciente,
       handleCloseConfInsert,
       setShowVentEmergenteConfConsulta,
@@ -274,6 +331,7 @@ export const ConsultaProvider = ({children}) => {
       handleChangeInput,
       addConsulta,
       handleInsert,
+      handleUpdate
     };
   return (
     <ConsultaContext.Provider  value={data} >

@@ -17,7 +17,7 @@ export const VentEmergenteEditConsulta = ({isOpen,onClose,consultaSelected}) => 
         <CloseOutlined  className='icon_accion icons' onClick={onClose} />
         </div>
         
-        {consultaSelected?<EditConsulta consulta={consultaSelected}/>:null}  
+        {consultaSelected?<EditConsulta onCloseEdit={onClose} consulta={consultaSelected}/>:null}  
         
         <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button>
       </div>

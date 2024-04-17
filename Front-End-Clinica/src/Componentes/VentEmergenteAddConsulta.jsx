@@ -1,5 +1,6 @@
 import React from 'react'
 import { AddConsulta } from './AddConsulta';
+import { CloseOutlined } from "@ant-design/icons";
 
 export const VentEmergenteAddConsulta =({isOpen,onClose}) => {
     if (!isOpen) {

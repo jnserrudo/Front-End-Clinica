@@ -1,18 +1,31 @@
 import { Button, TextField } from "@mui/material";
 import { Space } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../style.css";
 import ConsultaContext from "../Contexts/ConsultaContext";
-export const EditConsulta = ({ consulta }) => {
+import { VentEmergConfirmacion } from "./VentEmergConfirmacion";
+import { LoaderEmergente } from "./LoaderEmergente";
+export const EditConsulta = ({ onCloseEdit, consulta }) => {
   console.log("edit consulta: ", consulta);
 
   const [bandEdit, setBandEdit] = useState(false);
-  const [bandUpdated, setBandUpdated] = useState(false);
 
-  const { handleChangeInput } = useContext(ConsultaContext);
+  const [showVentEmergenteConfirmacion, setShowVentEmergenteConfirmacion] = useState(false)
+
+  const { handleChangeInput,bandLoader, bandUpdated, setBandUpdated ,handleUpdate} =
+    useContext(ConsultaContext);
   if (!consulta) {
     return null;
   }
+
+const handleCloseVentEmergente=()=>{
+  setShowVentEmergenteConfirmacion(false)
+}
+
+  useEffect(() => {
+    setBandUpdated(bandEdit);
+  }, [bandEdit]);
+
   return (
     <div className="form_edit_paciente">
       {/* <h2>
@@ -99,10 +112,15 @@ export const EditConsulta = ({ consulta }) => {
           color="success"
           variant="contained"
           style={{ margin: "1rem auto 0" }}
+          onClick={()=>setShowVentEmergenteConfirmacion(true)}
         >
           Actualizar
         </Button>
       ) : null}
+
+  <VentEmergConfirmacion onClosePadre={onCloseEdit}  onClose={handleCloseVentEmergente}  mje={'Esta seguro de actualizar la consulta?'} handleSi={()=>handleUpdate(consulta)}  isOpen={showVentEmergenteConfirmacion} />
+  
+
     </div>
   );
 };
