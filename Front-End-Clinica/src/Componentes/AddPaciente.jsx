@@ -70,7 +70,7 @@ export const AddPaciente = () => {
         <TextField
           className={`input_edit `}
           label="DNI"
-          name="ndocu"
+          name="dni"
           variant="outlined"
           type="number"
           value={pacienteToInsert?.dni ? pacienteToInsert.dni : 0}
