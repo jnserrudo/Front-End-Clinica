@@ -88,7 +88,7 @@ export const EditPaciente = ({ paciente,onCloseEdit }) => {
         <TextField
           className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
           label="DNI"
-          name="ndocu"
+          name="dni"
           variant="outlined"
           type="number"
           disabled={!bandEdit}
