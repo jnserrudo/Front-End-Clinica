@@ -40,13 +40,13 @@ export const PacienteForm = () => {
         </Button>
         <div className="cont_buscador">
           <TextField label="Buscar Paciente" onChange={(e)=>setToBusq(e.target.value)} value={toBusq} />
-          <Button  onClick={()=>{
+          {/* <Button  onClick={()=>{
             if(toBusq.length>0){
               handleSearch(toBusq)
             }
             }}>
             <SearchOutlined className="icons icon_buscador"  />
-          </Button>
+          </Button> */}
         </div>
       </div>
 

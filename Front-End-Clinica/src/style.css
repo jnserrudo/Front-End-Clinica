@@ -62,15 +62,17 @@ img {
 }
 .cont_actions_form {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
+  flex-wrap: wrap;
   margin: 1rem 0;
+  text-align: center;
   width: 65%;
+  align-items: center;
 }
 .cont_buscador {
-  display: flex;
   align-items: center;
-  justify-content: end;
-  width: 60%;
+  margin: 1rem;
+  width: 300px;
 }
 
 .tabla {
@@ -78,6 +80,7 @@ img {
   box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
     rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
   border-radius: 5px;
+  overflow: scroll;
 }
 .cont_acciones {
   display: flex;
@@ -125,7 +128,7 @@ img {
 .cont_btns_acciones_paciente {
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin-top: 1rem;
 }
 
@@ -146,6 +149,8 @@ img {
 
 .btn_agregar_paciente{
   width: 120px;
+  height: 50px;
+  
 }
 
 

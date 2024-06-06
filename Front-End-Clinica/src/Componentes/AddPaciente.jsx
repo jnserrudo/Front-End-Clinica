@@ -86,7 +86,7 @@ export const AddPaciente = () => {
           onChange={(e) => handleChangeInputInsert(e)}
         />
       </div>
-      <div>
+      <div className="cont_input_edit">
         <TextField
           className={`input_edit`}
           label="Plan"
