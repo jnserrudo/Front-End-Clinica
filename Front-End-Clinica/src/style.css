@@ -97,7 +97,7 @@ img {
   
 }
 
-.input_disabled input{
+.input_disabled input,.input_disabled textarea{
     
     -webkit-text-fill-color:black !important;
     

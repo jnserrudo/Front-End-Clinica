@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 export const ConsultaForm = () => {
   const {
     db,
+    pacienteConsulta,
     setNdocuPaciente,
     columns,
     consultaSelected,
@@ -60,6 +61,7 @@ export const ConsultaForm = () => {
           isOpen={showVentEmergenteEditConsulta}
           consultaSelected={consultaSelected}
           onClose={handleCloseVentEmergenteEditConsulta}
+          apenPaciente={apenPaciente }
         />
       ) : null}
 

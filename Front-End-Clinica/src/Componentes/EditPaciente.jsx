@@ -1,6 +1,6 @@
 import { Button, TextField } from "@mui/material";
 import { Space } from "antd";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "../style.css";
 import PacientesContext from "../Contexts/PacienteContext";
 import { VentEmergenteVacunas } from "./VentEmergenteVacunas";
@@ -8,22 +8,27 @@ import { VentEmergenteAPP } from "./VentEmergenteAPP";
 import { VentEmergenteAFP } from "./VentEmergenteAFP";
 import ConsultaContext from "../Contexts/ConsultaContext";
 import { useNavigate } from "react-router-dom";
-export const EditPaciente = ({ paciente }) => {
+import { VentEmergenteAlergias } from "./VentEmergenteAlergias";
+import { VentEmergConfirmacion } from "./VentEmergConfirmacion";
+export const EditPaciente = ({ paciente,onCloseEdit }) => {
   console.log("edit paciente: ", paciente);
 
   const navigate = useNavigate();
   const handleShowConsulta = (ndocu) => {
-    
-    navigate("/paciente/"+ndocu);
+    navigate("/paciente/" + ndocu);
   };
 
   const [bandEdit, setBandEdit] = useState(false);
   const [bandUpdated, setBandUpdated] = useState(false);
+  const [showVentEmergenteConfirmacion, setShowVentEmergenteConfirmacion] =
+    useState(false);
 
   const [showVentEmergenteVacunas, setShowVentEmergenteVacunas] =
     useState(false);
   const [showVentEmergenteAFP, setShowVentEmergenteAFP] = useState(false);
   const [showVentEmergenteAPP, setShowVentEmergenteAPP] = useState(false);
+  const [showVentEmergenteAlergias, setShowVentEmergenteAlergias] =
+    useState(false);
 
   const handleCloseVentEmergenteVacunas = () => {
     setShowVentEmergenteVacunas(false);
@@ -34,11 +39,23 @@ export const EditPaciente = ({ paciente }) => {
   const handleCloseVentEmergenteAPP = () => {
     setShowVentEmergenteAPP(false);
   };
+  const handleCloseVentEmergenteAlergias = () => {
+    setShowVentEmergenteAlergias(false);
+  };
+  const handleCloseVentEmergente = () => {
+    setShowVentEmergenteConfirmacion(false);
+  };
 
-  const { handleChangeInput } = useContext(PacientesContext);
+  const { handleChangeInput,handleUpdate } = useContext(PacientesContext);
   if (!paciente) {
     return null;
   }
+
+  console.log("viendo al paciente: ",paciente)
+  useEffect(() => {
+    setBandUpdated(bandEdit);
+  }, [bandEdit]);
+
   return (
     <div className="form_edit_paciente">
       {/* <h2>
@@ -75,7 +92,7 @@ export const EditPaciente = ({ paciente }) => {
           variant="outlined"
           type="number"
           disabled={!bandEdit}
-          value={12312312 /* paciente.ndocu */}
+          value={ paciente?.dni ? +paciente?.dni : 0 }
           onChange={(e) => handleChangeInput(e)}
         />
         <TextField
@@ -168,13 +185,16 @@ export const EditPaciente = ({ paciente }) => {
           variant="contained"
           color="secondary"
           size="large"
+          onClick={() => setShowVentEmergenteAlergias(true)}
         >
           Alergias
         </Button>
       </div>
       <div className="cont_btns_acciones_paciente">
-        <Button className="btn_accion_edit_paciente" variant="contained"
-          onClick={()=>handleShowConsulta(12312312)}
+        <Button
+          className="btn_accion_edit_paciente"
+          variant="contained"
+          onClick={() => handleShowConsulta(paciente.dni)}
         >
           Consultas
         </Button>
@@ -205,6 +225,8 @@ export const EditPaciente = ({ paciente }) => {
           color="success"
           variant="contained"
           style={{ margin: "1rem auto 0" }}
+          onClick={() => setShowVentEmergenteConfirmacion(true)}
+
         >
           Actualizar
         </Button>
@@ -213,17 +235,40 @@ export const EditPaciente = ({ paciente }) => {
       <VentEmergenteVacunas
         isOpen={showVentEmergenteVacunas}
         paciente={paciente}
+        bandEdit={bandEdit}
         onClose={handleCloseVentEmergenteVacunas}
       />
       <VentEmergenteAFP
         isOpen={showVentEmergenteAFP}
         paciente={paciente}
+        bandEdit={bandEdit}
         onClose={handleCloseVentEmergenteAFP}
       />
       <VentEmergenteAPP
         isOpen={showVentEmergenteAPP}
         paciente={paciente}
+        bandEdit={bandEdit}
         onClose={handleCloseVentEmergenteAPP}
+      />
+      <VentEmergenteAlergias
+        isOpen={showVentEmergenteAlergias}
+        bandEdit={bandEdit}
+        paciente={paciente}
+        onClose={handleCloseVentEmergenteAlergias}
+      />
+
+      <VentEmergConfirmacion
+        onClosePadre={onCloseEdit}
+        onClose={handleCloseVentEmergente}
+        mje={
+          "Esta seguro de actualizar los datos del paciente " +
+         /*  paciente?.nombre?.toUpperCase() +
+          ", " +
+          paciente?.apellido?.toUpperCase() + */
+          " ?"
+        }
+        handleSi={() => handleUpdate(paciente)}
+        isOpen={showVentEmergenteConfirmacion}
       />
     </div>
   );

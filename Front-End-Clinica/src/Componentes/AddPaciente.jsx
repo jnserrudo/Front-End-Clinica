@@ -6,6 +6,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Button, TextField } from "@mui/material";
 import "../style.css";
 import PacientesContext from "../Contexts/PacienteContext";
+import { VentEmergenteAlergias } from "./VentEmergenteAlergias";
 
 export const AddPaciente = () => {
   const {
@@ -23,7 +24,8 @@ export const AddPaciente = () => {
     useState(false);
   const [showVentEmergenteAFP, setShowVentEmergenteAFP] = useState(false);
   const [showVentEmergenteAPP, setShowVentEmergenteAPP] = useState(false);
-  
+  const [showVentEmergenteAlergias, setShowVentEmergenteAlergias] = useState(false);
+
 
 
   const handleCloseVentEmergenteVacunas = () => {
@@ -35,7 +37,9 @@ export const AddPaciente = () => {
   const handleCloseVentEmergenteAPP = () => {
     setShowVentEmergenteAPP(false);
   };
-
+  const handleCloseVentEmergenteAlergias = () => {
+    setShowVentEmergenteAlergias(false);
+  };
   return (
     <div className="form_edit_paciente">
       {/* <h2>
@@ -69,7 +73,7 @@ export const AddPaciente = () => {
           name="ndocu"
           variant="outlined"
           type="number"
-          value={pacienteToInsert?.ndocu ? pacienteToInsert.ndocu : 0}
+          value={pacienteToInsert?.dni ? pacienteToInsert.dni : 0}
           onChange={(e) => handleChangeInputInsert(e)}
         />
         <TextField
@@ -157,6 +161,7 @@ export const AddPaciente = () => {
           variant="contained"
           color="secondary"
           size="large"
+          onClick={()=>setShowVentEmergenteAlergias(true)}
         >
           Alergias
         </Button>
@@ -196,6 +201,12 @@ export const AddPaciente = () => {
         paciente={pacienteToInsert}
         onClose={handleCloseVentEmergenteAPP}
         isInsert={true}
+      />
+      <VentEmergenteAlergias
+      isOpen={showVentEmergenteAlergias}
+      paciente={pacienteToInsert}
+      onClose={handleCloseVentEmergenteAlergias}
+      isInsert={true}
       />
     </div>
   );

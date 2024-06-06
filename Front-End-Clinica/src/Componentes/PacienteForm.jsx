@@ -6,6 +6,7 @@ import { VentEmergenteEditPaciente } from "./VentEmergenteEditPaciente";
 
 import { UserAddOutlined, SearchOutlined } from "@ant-design/icons";
 import { VentEmergenteAddPaciente } from "./VentEmergenteAddPaciente";
+import { useEffect } from "react";
 
 export const PacienteForm = () => {
   //usaremos el contexto del paciente
@@ -18,7 +19,16 @@ export const PacienteForm = () => {
     showVentEmergenteAddPaciente,
     setShowVentEmergenteAddPaciente,
     handleCloseVentEmergenteAddPaciente,
+    handleSearch
   } = useContext(PacientesContext);
+
+  const [toBusq, setToBusq] = useState("")
+
+  useEffect(()=>{
+    if(toBusq.length>0){
+      handleSearch(toBusq)
+    }
+  },[toBusq])
 
   return (
     <div className="paciente_form">
@@ -29,9 +39,13 @@ export const PacienteForm = () => {
           Agregar Paciente <UserAddOutlined className="icons" />
         </Button>
         <div className="cont_buscador">
-          <TextField label="Buscar Paciente" />
-          <Button>
-            <SearchOutlined className="icons icon_buscador" />
+          <TextField label="Buscar Paciente" onChange={(e)=>setToBusq(e.target.value)} value={toBusq} />
+          <Button  onClick={()=>{
+            if(toBusq.length>0){
+              handleSearch(toBusq)
+            }
+            }}>
+            <SearchOutlined className="icons icon_buscador"  />
           </Button>
         </div>
       </div>

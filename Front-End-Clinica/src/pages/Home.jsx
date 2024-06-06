@@ -12,12 +12,12 @@ export const Home = () => {
         <Link to={"/paciente"}>
           <SectionCard mje="Pacientes" tipo="paciente" />
         </Link>
-        <Link to={"/alergia"} >
+        {/* <Link to={"/alergia"} >
           <SectionCard mje="Alergias" tipo="alergia" />
         </Link>
         <Link to={"/consultorio"} >
           <SectionCard mje="Consultorio" tipo="consultorio" />
-        </Link>
+        </Link> */}
       </main>
     </div>
   );

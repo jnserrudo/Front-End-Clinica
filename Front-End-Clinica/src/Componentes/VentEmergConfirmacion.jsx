@@ -5,10 +5,13 @@ import { Space } from "antd";
 import { useContext } from "react";
 import ConsultaContext from "../Contexts/ConsultaContext";
 import { LoaderEmergente } from "./LoaderEmergente";
+import PacientesContext from "../Contexts/PacienteContext";
 
 export const VentEmergConfirmacion = ({ onClosePadre, mje, isOpen, onClose, handleSi }) => {
-  const {bandLoader} = useContext(ConsultaContext)
-    if (!isOpen) {
+  const {bandLoader:bandLoaderConsulta} = useContext(ConsultaContext)
+  const {bandLoader:bandLoaderPaciente} = useContext(PacientesContext)
+
+  if (!isOpen) {
     return null;
   }
   return (
@@ -21,6 +24,7 @@ export const VentEmergConfirmacion = ({ onClosePadre, mje, isOpen, onClose, hand
 
         <p> {mje} </p>
         <Space>
+          <Button onClick={onClose}>No</Button>
           <Button onClick={async()=>{
             //aca definimos lo que pasara cuando se confirme la operacion
             //como asi tambien cerramos las ventanas emergente, de esta manera podemos reusar este componente en varios casos
@@ -28,9 +32,8 @@ export const VentEmergConfirmacion = ({ onClosePadre, mje, isOpen, onClose, hand
             onClose()
             onClosePadre()
             }}>Si</Button>
-          <Button onClick={onClose}>No</Button>
         </Space>
-        {bandLoader? <LoaderEmergente />:null}  
+        {(bandLoaderPaciente || bandLoaderConsulta )? <LoaderEmergente />:null}  
 
        
       </div>

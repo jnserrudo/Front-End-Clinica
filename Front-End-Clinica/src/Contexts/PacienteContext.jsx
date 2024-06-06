@@ -3,12 +3,14 @@ import {
   getAllPacientes,
   getPacienteByNdocu,
   insertPaciente,
+  updatePaciente,
 } from "../services/pacientes-services";
 import { Space, Tag } from "antd";
 import { EditOutlined, DragOutlined } from "@ant-design/icons";
 const PacientesContext = createContext();
 export const PacientesProvider = ({ children }) => {
   const [db, setDb] = useState([]);
+  const [dbSearch, setDbSearch] = useState([])
   const [ndocuPaciente, setNdocuPaciente] = useState(0);
   const [pacienteSelected, setPacienteSelected] = useState({});
 
@@ -35,7 +37,7 @@ export const PacientesProvider = ({ children }) => {
     // en esta validacion aparecen los 4 mensajes al mismo tiempo, se debera pensar la manera en la cual simplemente aparezca por el input que se esta viendo, tambien creo que la validacion se deberia hacer cuando se envie el formulario
     console.log(form);
 
-    if (!form?.ndocu && form?.ndocu < 0) {
+    if (!form?.dni && form?.dni <= 0) {
       errors.lugar = "El documento es requerido";
     }
     if (!form?.nombre && !form?.nombre?.length == 0) {
@@ -61,7 +63,10 @@ export const PacientesProvider = ({ children }) => {
     if (!form?.celular) {
       errors.celular = "El telefono es requerido";
     }
-
+    if (!form?.nroAfiliado&&!form?.nroAfiliado<=0) {
+      errors.celular = "El telefono es requerido";
+    }
+/* 
     if (!form?.vacunas) {
       errors.vacunas = "Las vacunas son requeridas";
     }
@@ -72,13 +77,32 @@ export const PacientesProvider = ({ children }) => {
 
     if (!form?.app) {
       errors.app = "Las app son requeridas";
-    }
+    } */
     /* if (!form?.alergias) {
       errors.alergias = "Las alergias son requeridas";
     } */
 
     return errors;
   };
+
+  const handleSearch=(busq)=>{
+    console.log(busq)
+    console.log(db)
+    let coincidencias=[]
+    for(let pac of db){
+      for(let x of Object.values(pac) ){
+        if(x.toString().toLowerCase().includes(busq.toLowerCase())){
+          console.log(x)
+          coincidencias.push(pac)
+          break;
+        }
+      }
+    }
+
+    setDbSearch(coincidencias)
+    console.log("coincidencias: ",coincidencias)
+  }
+
 
   const handleCloseVentEmergenteEditPaciente = () => {
     setShowVentEmergenteEditPaciente(false);
@@ -135,9 +159,28 @@ export const PacientesProvider = ({ children }) => {
 
   const handleEditPacient = (paciente) => {
     console.log("editando: ", paciente);
-    setNdocuPaciente(paciente.ndocu);
+    setNdocuPaciente(paciente.dni);
     setShowVentEmergenteEditPaciente(true);
   };
+
+  const handleUpdate=async(paciente)=>{
+      
+    const actualizarPaciente=async(paciente)=>{
+      console.log("se esta por actualizar este paciente: ",paciente)
+      const update=await updatePaciente(paciente)
+      console.log("update: ",update)
+    }
+    
+      //activar loader
+      setBandLoader(true);
+      let resupdate=await  actualizarPaciente(paciente)
+      getallpacientes();
+
+      console.log(resupdate)
+      setBandLoader(false);
+    
+
+  }
 
   const handleSeePacient = (paciente) => {
     console.log("viendo: ", paciente);
@@ -156,7 +199,7 @@ export const PacientesProvider = ({ children }) => {
   const columns = [
     {
       title: "DNI",
-      dataIndex: "ndocu",
+      dataIndex: "dni",
       render: (text) => <a>{text}</a>,
       align: "center",
     },
@@ -201,7 +244,7 @@ export const PacientesProvider = ({ children }) => {
   };
   const addPaciente = async (paciente) => {
     let insert = await insertPaciente(
-      paciente.ndocu,
+      paciente.dni,
       paciente.obraSocial,
       paciente.plan,
       paciente.domicilio,
@@ -219,12 +262,14 @@ export const PacientesProvider = ({ children }) => {
     return insert;
   };
 
+  let getallpacientes = async () => {
+    let pacientes = await getAllPacientes();
+    
+    console.log(pacientes);
+    setDb(pacientes);
+  };
   useEffect(() => {
-    let getallpacientes = async () => {
-      let pacientes = await getAllPacientes();
-      console.log(pacientes.recursos);
-      setDb(pacientes.recursos);
-    };
+    
 
     getallpacientes();
   }, []);
@@ -250,6 +295,8 @@ export const PacientesProvider = ({ children }) => {
     showVentEmergenteAddPaciente, 
     showVentEmergenteConfPaciente, 
     bandLoader,
+    dbSearch,
+    handleSearch,
     handleCloseConfInsert,
     setShowVentEmergenteConfPaciente,
     handleCloseVentEmergenteConfPaciente,
@@ -263,7 +310,8 @@ export const PacientesProvider = ({ children }) => {
     handleCloseVentEmergenteEditPaciente: handleCloseVentEmergenteEditPaciente,
     handleChangeInput,
     addPaciente,
-    handleInsert
+    handleInsert,
+    handleUpdate
   };
   return (
     <PacientesContext.Provider value={data}>

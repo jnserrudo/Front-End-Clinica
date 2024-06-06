@@ -8,6 +8,8 @@ export const VentEmergenteAFP = ({
   onClose,
   paciente,
   isInsert = false,
+  bandEdit=true
+
 }) => {
   const { handleChangeInput ,handleChangeInputInsert} = useContext(PacientesContext);
 
@@ -23,11 +25,15 @@ export const VentEmergenteAFP = ({
           <CloseOutlined className="icon_accion icons" onClick={onClose} />
         </div>
         <TextField
-          className="input_edit"
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
           label="AFP"
           name="afp"
           variant="outlined"
           type="text"
+          multiline
+          rows={4}
+          disabled={!bandEdit}
+
           value={paciente.afp ? paciente.afp : ""}
           onChange={(e) =>
             isInsert ? handleChangeInputInsert(e) : handleChangeInput(e)

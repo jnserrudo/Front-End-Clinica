@@ -1,12 +1,15 @@
 import React, { createContext, useEffect, useState } from "react";
 
-import { getAllConsultas,getConsultaByIdDetalle,getConsultaByNdocu,getConsultaByNdocuDetalle,insertConsulta, updateConsulta } from "../services/consulta-services";
+import { getAllConsultas,getConsultaById,getConsultaByIdDetalle,getConsultaByNdocu,getConsultaByNdocuDetalle,insertConsulta, updateConsulta } from "../services/consulta-services";
 import { EditOutlined, DragOutlined } from "@ant-design/icons";
+import { getPacienteByNdocu } from "../services/pacientes-services";
 
 const ConsultaContext=createContext()
 export const ConsultaProvider = ({children}) => {
     const [db, setDb] = useState([]);
     const [ndocuPaciente, setNdocuPaciente] = useState(0);
+
+    const [pacienteConsulta, setPacienteConsulta] = useState({});
 
     const [apenPaciente, setApenPaciente] = useState("");
 
@@ -39,10 +42,10 @@ export const ConsultaProvider = ({children}) => {
       // en esta validacion aparecen los 4 mensajes al mismo tiempo, se debera pensar la manera en la cual simplemente aparezca por el input que se esta viendo, tambien creo que la validacion se deberia hacer cuando se envie el formulario
       console.log(form);
   
-      if (!form?.diagnostico && !form?.diagnostico?.length == 0) {
+      /* if (!form?.diagnostico && !form?.diagnostico?.length == 0) {
         errors.diagnostico = "El diagnostico es requerida";
       }
-  
+   */
       if (!form?.tratamiento && !form?.tratamiento?.length == 0) {
         errors.tratamiento = "El tratamiento es requerido";
       }
@@ -53,6 +56,10 @@ export const ConsultaProvider = ({children}) => {
 
       if (!form?.motivo) {
         errors.motivo = "El motivo es requerido";
+      }
+      
+      if(!form?.tipo){
+        errors.tipo = "El tipo de consulta es requerido";
       }
   
       if (!form?.evolucion) {
@@ -90,13 +97,16 @@ export const ConsultaProvider = ({children}) => {
       
       const actualizarConsulta=async(consulta)=>{
         console.log("se esta por actualizar esta consulta: ",consulta)
-        const update=await updateConsulta(consulta.fecha,consulta.motivo,consulta.diagnostico,consulta.tratamiento,consulta.evolucion)
+        const update=await updateConsulta(consulta)
         console.log("update: ",update)
       }
       if(consulta?.id){
         //activar loader
         setBandLoader(true);
         let resupdate=await  actualizarConsulta(consulta)
+        getallconsultas();
+
+
         console.log(resupdate)
         setBandLoader(false);
 
@@ -107,17 +117,25 @@ export const ConsultaProvider = ({children}) => {
     }
 
     const handleChangeInputInsert = (e) => {
-      console.log("name: ", e.target.name, " value: ", e.target.value);
-  
-      let newValue = {
-        ...consultaToInsert,
-        [e.target.name]:  e.target.value,
-      };
-      console.log(newValue);
-      //solo para PRUEBA
-      if (!consultaToInsert?.id){
-        newValue.id=1
+     // console.log("name: ", e.target.name, " value: ", e.target.value);
+     console.log("soy el valor de e: ",e)
+      let newValue
+      if(!e?.target){
+        //estamos en el select de tipos
+        newValue = {
+          ...consultaToInsert,
+          tipo:  e,
+        };
+      }else{
+
+        newValue = {
+          ...consultaToInsert,
+          [e.target.name]:  e.target.value,
+        };
       }
+      console.log(newValue);
+
+    
       //no puedo aplicar el formateo aca, porque estaria modificando el formato del input y no se puede
       //me daria un error, porque el input de tipo date acepta otro formato, por lo que el formateo lo deberia hacer a la hora de hacer el insert
       /* if(newValue?.fecha){
@@ -138,22 +156,23 @@ export const ConsultaProvider = ({children}) => {
       setConsultaSelected(newValue);
 
       setBandUpdated(true)
-
-
-
     };
+
+    const handleChangeTipoConsulta=(newTipo)=>{
+      console.log(newTipo)
+      let newValue = {
+        ...consultaSelected,
+        tipo: newTipo,
+      };
+      setConsultaSelected(newValue);
+
+      setBandUpdated(true)
+    }
   
-    /* const columns=[
-      { field: "ndocu", headerName: "DNI", width: 150 },
-      { field: "nombre", headerName: "Nombre", width: 180 },
-      { field: "apellido", headerName: "Apellido", width: 350 },
-    ];
-   */
-  
-    const handleEditConsulta = (consulta) => {
+    const handleEditConsulta = async(consulta) => {
       console.log("editando: ", consulta);
-      //setNdocuPaciente(consulta.ndocu); seria al pedo poner con el dni porque son las consultas de una misma persona, siempre tendria el mismo documento, asi que pondremos el id de la consulta
-      //PARA PRUEBA agregaremos una id a la consulta cuando veamos una que acabamos de agregar
+      
+      
       
       setIdConsulta(consulta?.id)
       setShowVentEmergenteEditConsulta(true);
@@ -172,8 +191,14 @@ export const ConsultaProvider = ({children}) => {
     }, [ndocuPaciente]); */
     useEffect(() => {
       const getconsultabyid = async () => {
-        let consulta = await getConsultaByIdDetalle(idConsulta);
+        //let consulta = await getConsultaByIdDetalle(idConsulta);
+        let consulta = await getConsultaById(idConsulta);
         console.log(consulta)
+        //tenemos la consulta, la cual contiene el ..dni del paciente, con esto lo que haremos sera traer
+        //del paciente mas datos, como el nombre
+        let paciente= await getPacienteByNdocu(consulta.pacienteDni)
+
+        setPacienteConsulta(paciente);
         setConsultaSelected(consulta);
       };
       if (idConsulta > 0) {
@@ -232,18 +257,28 @@ export const ConsultaProvider = ({children}) => {
         //validar para insert
         console.log(" se esta por insertar el Consulta: ", consultaToInsert);
         let newConsulta=consultaToInsert
-        newConsulta.fecha= formatDate(newConsulta.fecha)
+        // newConsulta.fecha= formatDate(newConsulta.fecha)
         await addConsulta(newConsulta);
         handleCloseVentEmergenteConfConsulta();
         handleCloseVentEmergenteAddConsulta();
       }
     };
-    const addConsulta = async (consulta) => {
-      let insert = await insertConsulta();
-      console.log(insert);
-      //esto es solo de prueba para que se visualize momentaneamente el paciente agregado
-      setDb([consulta, ...db]);
+    // Función para convertir una fecha en formato "DD/MM/YYYY" a un objeto Date
+    function parseDate(input) {
+      return new Date(input); // Simplemente pasamos la fecha como está, ya que JavaScript entiende el formato ISO (YYYY-MM-DD) de forma nativa
+  }
   
+    const addConsulta = async (consulta) => {
+      console.log(consulta,ndocuPaciente)
+      consulta.pacienteDni=+ndocuPaciente
+      consulta.fecha=parseDate(consulta.fecha)
+      let insert = await insertConsulta(consulta);
+      console.log(insert);
+      //pasamos la fecha al formato para que se vea bien en la tabla
+      insert.fecha=formatDate(insert.fecha)
+      
+      setDb([insert, ...db]);
+      
       return insert;
     };
 
@@ -269,21 +304,25 @@ export const ConsultaProvider = ({children}) => {
     }
     
   
+    let getallconsultas = async () => {
+      let consultas = await getAllConsultas(ndocuPaciente);
+      console.log(consultas)
+      
+      let apen=consultas.apen
+      consultas=consultas.consultas.map((c)=>{
+        return {
+          ...c,
+          fecha:formatDate(c.fecha)
+        }
+      })
+
+      setApenPaciente(apen)
+      setDb(consultas);
+    };
+
     useEffect(() => {
 
-      let getallconsultas = async () => {
-        let consultas = await getAllConsultas(ndocuPaciente);
-        let apen=consultas.recursos.apen
-        consultas=consultas.recursos.consultas.map((c)=>{
-          return {
-            ...c,
-            fecha:formatDate(c.fecha)
-          }
-        })
-
-        setApenPaciente(apen)
-        setDb(consultas);
-      };
+      
   
       if(ndocuPaciente){
           getallconsultas();
@@ -316,7 +355,9 @@ export const ConsultaProvider = ({children}) => {
       bandLoader,
       apenPaciente,
       bandUpdated, 
+      pacienteConsulta,
       setBandUpdated,
+      handleChangeTipoConsulta,
       formatDate,
       setNdocuPaciente,
       handleCloseConfInsert,

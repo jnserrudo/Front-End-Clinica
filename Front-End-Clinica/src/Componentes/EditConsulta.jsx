@@ -1,5 +1,5 @@
 import { Button, TextField } from "@mui/material";
-import { Space } from "antd";
+import { Select, Space } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import "../style.css";
 import ConsultaContext from "../Contexts/ConsultaContext";
@@ -10,17 +10,25 @@ export const EditConsulta = ({ onCloseEdit, consulta }) => {
 
   const [bandEdit, setBandEdit] = useState(false);
 
-  const [showVentEmergenteConfirmacion, setShowVentEmergenteConfirmacion] = useState(false)
+  const [showVentEmergenteConfirmacion, setShowVentEmergenteConfirmacion] =
+    useState(false);
 
-  const { handleChangeInput,bandLoader, bandUpdated, setBandUpdated ,handleUpdate} =
-    useContext(ConsultaContext);
+  const {
+    pacienteConsulta,
+    handleChangeInput,
+    bandLoader,
+    bandUpdated,
+    setBandUpdated,
+    handleUpdate,
+    handleChangeTipoConsulta,
+  } = useContext(ConsultaContext);
   if (!consulta) {
     return null;
   }
 
-const handleCloseVentEmergente=()=>{
-  setShowVentEmergenteConfirmacion(false)
-}
+  const handleCloseVentEmergente = () => {
+    setShowVentEmergenteConfirmacion(false);
+  };
 
   useEffect(() => {
     setBandUpdated(bandEdit);
@@ -84,7 +92,28 @@ const handleCloseVentEmergente=()=>{
           rows={4}
         />
       </div>
-
+      <Select
+        style={{
+          width: 220,
+        }}
+        disabled={!bandEdit}
+        value={consulta?.tipo ? consulta?.tipo : "Tipo Consulta"}
+        onChange={(e) => handleChangeTipoConsulta(e)}
+        options={[
+          {
+            value: "presencial",
+            label: "Presencial",
+          },
+          {
+            value: "virtual",
+            label: "Virtual",
+          },
+          {
+            value: "telefonica",
+            label: "Telefonica",
+          },
+        ]}
+      />
       <div className="cont_btns_acciones_paciente">
         {!bandEdit ? (
           <Button
@@ -112,15 +141,25 @@ const handleCloseVentEmergente=()=>{
           color="success"
           variant="contained"
           style={{ margin: "1rem auto 0" }}
-          onClick={()=>setShowVentEmergenteConfirmacion(true)}
+          onClick={() => setShowVentEmergenteConfirmacion(true)}
         >
           Actualizar
         </Button>
       ) : null}
 
-  <VentEmergConfirmacion onClosePadre={onCloseEdit}  onClose={handleCloseVentEmergente}  mje={'Esta seguro de actualizar la consulta?'} handleSi={()=>handleUpdate(consulta)}  isOpen={showVentEmergenteConfirmacion} />
-  
-
+      <VentEmergConfirmacion
+        onClosePadre={onCloseEdit}
+        onClose={handleCloseVentEmergente}
+        mje={
+          "Esta seguro de actualizar la consulta de " +
+          pacienteConsulta?.nombre?.toUpperCase() +
+          ", " +
+          pacienteConsulta?.apellido?.toUpperCase() +
+          " ?"
+        }
+        handleSi={() => handleUpdate(consulta)}
+        isOpen={showVentEmergenteConfirmacion}
+      />
     </div>
   );
 };
