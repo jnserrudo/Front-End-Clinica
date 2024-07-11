@@ -1,7 +1,7 @@
 import { entorno } from "./confing";
 
 export const getAllPacientes = async () => {
-  console.log('antes del fetch get all pacientes')
+  console.log("antes del fetch get all pacientes");
   const res = await fetch(`${entorno}/pacientes`);
   const data = await res.json();
   return data;
@@ -27,12 +27,14 @@ export const updatePaciente = async (paciente) => {
 };
 
 export const insertPaciente = async (
-  ndocu,
+  nombre,
+  apellido,
+  dni,
   obraSocial,
   plan,
   domicilio,
   nroAfiliado,
-  telefono,
+  celular,
   vacunas,
   afp,
   app,
@@ -44,12 +46,14 @@ export const insertPaciente = async (
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      ndocu,
+      nombre,
+      apellido,
+      dni,
       obraSocial,
       plan,
       domicilio,
       nroAfiliado,
-      telefono,
+      celular,
       vacunas,
       afp,
       app,

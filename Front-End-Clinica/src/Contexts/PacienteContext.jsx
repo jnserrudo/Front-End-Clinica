@@ -244,12 +244,14 @@ export const PacientesProvider = ({ children }) => {
   };
   const addPaciente = async (paciente) => {
     let insert = await insertPaciente(
-      paciente.dni,
+      paciente.nombre,
+      paciente.apellido,
+      +paciente.dni,
       paciente.obraSocial,
       paciente.plan,
       paciente.domicilio,
-      paciente.nroAfiliado,
-      paciente.telefono,
+      +paciente.nroAfiliado,
+      +paciente.celular,
       paciente.vacunas,
       paciente.afp,
       paciente.app,
