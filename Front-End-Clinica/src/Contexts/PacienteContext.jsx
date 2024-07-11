@@ -90,12 +90,21 @@ export const PacientesProvider = ({ children }) => {
     console.log(db)
     let coincidencias=[]
     for(let pac of db){
+      console.log(pac)
       for(let x of Object.values(pac) ){
-        if(x.toString().toLowerCase().includes(busq.toLowerCase())){
-          console.log(x)
-          coincidencias.push(pac)
-          break;
+        if(x){
+          //evitamos los nulos
+          if(typeof x=='number'){
+            x=x.toString()
+          }
+          console.log("soy x: ",x)
+          if(x.toLowerCase().includes(busq.toLowerCase())){
+            console.log(x)
+            coincidencias.push(pac)
+            break;
+          }
         }
+        
       }
     }
 
@@ -298,6 +307,7 @@ export const PacientesProvider = ({ children }) => {
     showVentEmergenteConfPaciente, 
     bandLoader,
     dbSearch,
+    setDbSearch,
     handleSearch,
     handleCloseConfInsert,
     setShowVentEmergenteConfPaciente,

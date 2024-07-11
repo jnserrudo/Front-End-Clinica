@@ -8,6 +8,7 @@ const ConsultaContext=createContext()
 export const ConsultaProvider = ({children}) => {
     const [db, setDb] = useState([]);
     const [ndocuPaciente, setNdocuPaciente] = useState(0);
+    const [dbSearchConsulta, setDbSearch] = useState([])
 
     const [pacienteConsulta, setPacienteConsulta] = useState({});
 
@@ -304,6 +305,33 @@ export const ConsultaProvider = ({children}) => {
     }
     
   
+    const handleSearch=(busq)=>{
+      console.log(busq)
+      console.log(db)
+      let coincidencias=[]
+      for(let pac of db){
+        console.log(pac)
+        for(let x of Object.values(pac) ){
+          if(x){
+            //evitamos los nulos
+            if(typeof x=='number'){
+              x=x.toString()
+            }
+            console.log("soy x: ",x)
+            if(x.toLowerCase().includes(busq.toLowerCase())){
+              console.log(x)
+              coincidencias.push(pac)
+              break;
+            }
+          }
+          
+        }
+      }
+  
+      setDbSearch(coincidencias)
+      console.log("coincidencias: ",coincidencias)
+    }
+
     let getallconsultas = async () => {
       let consultas = await getAllConsultas(ndocuPaciente);
       console.log(consultas)
@@ -332,6 +360,9 @@ export const ConsultaProvider = ({children}) => {
       
     }, [ndocuPaciente]);
   
+
+
+
     useEffect(() => {
       let errores = validationsForm(consultaToInsert);
       console.log(errores);
@@ -356,6 +387,9 @@ export const ConsultaProvider = ({children}) => {
       apenPaciente,
       bandUpdated, 
       pacienteConsulta,
+      dbSearchConsulta,
+      handleSearch,
+      setDbSearch,
       setBandUpdated,
       handleChangeTipoConsulta,
       formatDate,

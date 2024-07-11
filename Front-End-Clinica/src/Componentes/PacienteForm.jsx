@@ -19,7 +19,8 @@ export const PacienteForm = () => {
     showVentEmergenteAddPaciente,
     setShowVentEmergenteAddPaciente,
     handleCloseVentEmergenteAddPaciente,
-    handleSearch
+    handleSearch,
+    setDbSearch
   } = useContext(PacientesContext);
 
   const [toBusq, setToBusq] = useState("")
@@ -27,6 +28,8 @@ export const PacienteForm = () => {
   useEffect(()=>{
     if(toBusq.length>0){
       handleSearch(toBusq)
+    }else{
+      setDbSearch([])
     }
   },[toBusq])
 
@@ -60,7 +63,7 @@ export const PacienteForm = () => {
         onClose={handleCloseVentEmergenteEditPaciente}
       />
 
-      {db ? <DataTable db={db} columns={columns} /> : null}
+      {db&&!db?.message ? <DataTable db={db} columns={columns} tabla={'paciente'} /> : null}
     </div>
   );
 };

@@ -20,8 +20,11 @@ export const ConsultaForm = () => {
     showVentEmergenteAddConsulta,
     setShowVentEmergenteAddConsulta,
     handleCloseVentEmergenteAddConsulta,
-    apenPaciente
+    apenPaciente,
+    handleSearch,
+    setDbSearch
   } = useContext(ConsultaContext);
+  const [toBusq, setToBusq] = useState("")
 
   const { ndocu } = useParams();
 
@@ -30,6 +33,14 @@ export const ConsultaForm = () => {
       setNdocuPaciente(ndocu);
     }
   }, [ndocu]);
+
+  useEffect(()=>{
+    if(toBusq.length>0){
+      handleSearch(toBusq)
+    }else{
+      setDbSearch([])
+    }
+  },[toBusq])
 
   return (
     <div className="paciente_form">
@@ -45,7 +56,7 @@ export const ConsultaForm = () => {
           Agregar Consulta <UserAddOutlined className="icons" />
         </Button>
         <div className="cont_buscador">
-          <TextField label="Buscar Consulta" />
+          <TextField label="Buscar Consulta"  onChange={(e)=>setToBusq(e.target.value)} value={toBusq}  />
           <Button>
             <SearchOutlined className="icons icon_buscador" />
           </Button>
@@ -65,7 +76,7 @@ export const ConsultaForm = () => {
         />
       ) : null}
 
-      {db ? <DataTable db={db} columns={columns} /> : null}
+      {db&&!db?.message ? <DataTable db={db} columns={columns} tabla={'consulta'} /> : null}
     </div>
   );
 };
