@@ -23,6 +23,65 @@ export const AddConsulta = () => {
   };
   return (
     <div className="form_edit_paciente">
+      <Select
+        style={{
+          width: 220,
+        }}
+        defaultValue={"Tipo Consulta"}
+        onChange={(e) => handleChangeInputInsert(e)}
+        options={[
+          {
+            value: "presencial",
+            label: "Presencial",
+          },
+          {
+            value: "virtual",
+            label: "Virtual",
+          },
+          {
+            value: "telefonica",
+            label: "Telefonica",
+          },
+        ]}
+      />
+      <div className="cont_input_edit">
+      <TextField
+          className={`input_edit `}
+          name="fecha"
+          variant="outlined"
+          type="date"
+          value={consultaToInsert?.fecha ? consultaToInsert?.fecha : ""}
+          onChange={(e) => handleChangeInputInsert(e)}
+          
+        />
+        
+
+      </div>
+      <div className="cont_input_edit">
+        <TextField
+          className={`input_edit`}
+          label="Motivo"
+          name="motivo"
+          variant="outlined"
+          type="text"
+          value={consultaToInsert.motivo ? consultaToInsert.motivo : ""}
+          onChange={(e) => handleChangeInputInsert(e)}
+          multiline
+          rows={4}
+        />
+        <TextField
+          className={`input_edit `}
+          label="Evolución"
+          name="evolucion"
+          variant="outlined"
+          type="text"
+          value={consultaToInsert?.evolucion ? consultaToInsert?.evolucion : ""}
+          onChange={(e) => handleChangeInputInsert(e)}
+          multiline
+          rows={4}
+        />
+        
+      </div>
       <div className="cont_input_edit">
         <TextField
           className={`input_edit `}
@@ -51,64 +110,8 @@ export const AddConsulta = () => {
           rows={4}
         />
       </div>
-      <div className="cont_input_edit">
-        <TextField
-          className={`input_edit`}
-          label="Motivo"
-          name="motivo"
-          variant="outlined"
-          type="text"
-          value={consultaToInsert.motivo ? consultaToInsert.motivo : ""}
-          onChange={(e) => handleChangeInputInsert(e)}
-          multiline
-          rows={4}
-        />
-        <TextField
-          className={`input_edit `}
-          label="Evolución"
-          name="evolucion"
-          variant="outlined"
-          type="text"
-          value={consultaToInsert?.evolucion ? consultaToInsert?.evolucion : ""}
-          onChange={(e) => handleChangeInputInsert(e)}
-          multiline
-          rows={4}
-        />
-        
-      </div>
-      <div className="cont_input_edit">
-      <TextField
-          className={`input_edit `}
-          name="fecha"
-          variant="outlined"
-          type="date"
-          value={consultaToInsert?.fecha ? consultaToInsert?.fecha : ""}
-          onChange={(e) => handleChangeInputInsert(e)}
-          
-        />
-        <Select
-        style={{
-          width: 220,
-        }}
-        defaultValue={"Tipo Consulta"}
-        onChange={(e) => handleChangeInputInsert(e)}
-        options={[
-          {
-            value: "presencial",
-            label: "Presencial",
-          },
-          {
-            value: "virtual",
-            label: "Virtual",
-          },
-          {
-            value: "telefonica",
-            label: "Telefonica",
-          },
-        ]}
-      />
-
-      </div>
+      
+      
       
       {bandInsert ? (
         <Button

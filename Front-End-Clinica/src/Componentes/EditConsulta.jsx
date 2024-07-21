@@ -40,32 +40,28 @@ export const EditConsulta = ({ onCloseEdit, consulta }) => {
           {paciente.nombre} {paciente.apellido}{" "}
         </h2>
    */}
-      <div className="cont_input_edit">
-        <TextField
-          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
-          label="Diagnostico"
-          name="diagnostico"
-          variant="outlined"
-          type="text"
-          disabled={!bandEdit}
-          value={consulta.diagnostico ? consulta.diagnostico : ""}
-          onChange={(e) => handleChangeInput(e)}
-          multiline
-          rows={4}
-        />
-        <TextField
-          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
-          label="Tratamiento"
-          name="tratamiento"
-          variant="outlined"
-          type="text"
-          disabled={!bandEdit}
-          value={consulta.tratamiento ? consulta.tratamiento : ""}
-          onChange={(e) => handleChangeInput(e)}
-          multiline
-          rows={4}
-        />
-      </div>
+   <Select
+        style={{
+          width: 220,
+        }}
+        disabled={!bandEdit}
+        value={consulta?.tipo ? consulta?.tipo : "Tipo Consulta"}
+        onChange={(e) => handleChangeTipoConsulta(e)}
+        options={[
+          {
+            value: "presencial",
+            label: "Presencial",
+          },
+          {
+            value: "virtual",
+            label: "Virtual",
+          },
+          {
+            value: "telefonica",
+            label: "Telefonica",
+          },
+        ]}
+      />
       <div className="cont_input_edit">
         <TextField
           className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
@@ -92,28 +88,34 @@ export const EditConsulta = ({ onCloseEdit, consulta }) => {
           rows={4}
         />
       </div>
-      <Select
-        style={{
-          width: 220,
-        }}
-        disabled={!bandEdit}
-        value={consulta?.tipo ? consulta?.tipo : "Tipo Consulta"}
-        onChange={(e) => handleChangeTipoConsulta(e)}
-        options={[
-          {
-            value: "presencial",
-            label: "Presencial",
-          },
-          {
-            value: "virtual",
-            label: "Virtual",
-          },
-          {
-            value: "telefonica",
-            label: "Telefonica",
-          },
-        ]}
-      />
+      <div className="cont_input_edit">
+        <TextField
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
+          label="Diagnostico"
+          name="diagnostico"
+          variant="outlined"
+          type="text"
+          disabled={!bandEdit}
+          value={consulta.diagnostico ? consulta.diagnostico : ""}
+          onChange={(e) => handleChangeInput(e)}
+          multiline
+          rows={4}
+        />
+        <TextField
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
+          label="Tratamiento"
+          name="tratamiento"
+          variant="outlined"
+          type="text"
+          disabled={!bandEdit}
+          value={consulta.tratamiento ? consulta.tratamiento : ""}
+          onChange={(e) => handleChangeInput(e)}
+          multiline
+          rows={4}
+        />
+      </div>
+      
+      
       <div className="cont_btns_acciones_paciente">
         {!bandEdit ? (
           <Button

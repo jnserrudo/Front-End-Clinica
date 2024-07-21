@@ -10,7 +10,7 @@ import ConsultaContext from "../Contexts/ConsultaContext";
 import { useNavigate } from "react-router-dom";
 import { VentEmergenteAlergias } from "./VentEmergenteAlergias";
 import { VentEmergConfirmacion } from "./VentEmergConfirmacion";
-export const EditPaciente = ({ paciente,onCloseEdit }) => {
+export const EditPaciente = ({ paciente, onCloseEdit }) => {
   console.log("edit paciente: ", paciente);
 
   const navigate = useNavigate();
@@ -46,12 +46,12 @@ export const EditPaciente = ({ paciente,onCloseEdit }) => {
     setShowVentEmergenteConfirmacion(false);
   };
 
-  const { handleChangeInput,handleUpdate } = useContext(PacientesContext);
+  const { handleChangeInput, handleUpdate } = useContext(PacientesContext);
   if (!paciente) {
     return null;
   }
 
-  console.log("viendo al paciente: ",paciente)
+  console.log("viendo al paciente: ", paciente);
   useEffect(() => {
     setBandUpdated(bandEdit);
   }, [bandEdit]);
@@ -92,29 +92,7 @@ export const EditPaciente = ({ paciente,onCloseEdit }) => {
           variant="outlined"
           type="number"
           disabled={!bandEdit}
-          value={ paciente?.dni ? +paciente?.dni : 0 }
-          onChange={(e) => handleChangeInput(e)}
-        />
-        <TextField
-          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
-          label="Obra Social"
-          name="obraSocial"
-          variant="outlined"
-          type="text"
-          disabled={!bandEdit}
-          value={paciente?.obraSocial ? paciente?.obraSocial : ""}
-          onChange={(e) => handleChangeInput(e)}
-        />
-      </div>
-      <div>
-        <TextField
-          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
-          label="Plan"
-          name="plan"
-          variant="outlined"
-          type="text"
-          disabled={!bandEdit}
-          value={paciente.plan ? paciente.plan : ""}
+          value={paciente?.dni ? +paciente?.dni : 0}
           onChange={(e) => handleChangeInput(e)}
         />
         <TextField
@@ -131,22 +109,44 @@ export const EditPaciente = ({ paciente,onCloseEdit }) => {
       <div className="cont_input_edit">
         <TextField
           className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
-          label="N° Afiliado"
-          name="nroAfiliado"
-          variant="outlined"
-          type="text"
-          disabled={!bandEdit}
-          value={paciente.nroAfiliado ? +paciente.nroAfiliado : 0}
-          onChange={(e) => handleChangeInput(e)}
-        />
-        <TextField
-          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
           label="Celular"
           name="celular"
           variant="outlined"
           type="number"
           disabled={!bandEdit}
           value={paciente.celular ? paciente.celular : ""}
+          onChange={(e) => handleChangeInput(e)}
+        />
+        <TextField
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
+          label="Obra Social"
+          name="obraSocial"
+          variant="outlined"
+          type="text"
+          disabled={!bandEdit}
+          value={paciente?.obraSocial ? paciente?.obraSocial : ""}
+          onChange={(e) => handleChangeInput(e)}
+        />
+      </div>
+      <div className="cont_input_edit">
+        <TextField
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
+          label="Plan"
+          name="plan"
+          variant="outlined"
+          type="text"
+          disabled={!bandEdit}
+          value={paciente.plan ? paciente.plan : ""}
+          onChange={(e) => handleChangeInput(e)}
+        />
+        <TextField
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
+          label="N° Afiliado"
+          name="nroAfiliado"
+          variant="outlined"
+          type="text"
+          disabled={!bandEdit}
+          value={paciente.nroAfiliado ? +paciente.nroAfiliado : 0}
           onChange={(e) => handleChangeInput(e)}
         />
       </div>
@@ -226,7 +226,6 @@ export const EditPaciente = ({ paciente,onCloseEdit }) => {
           variant="contained"
           style={{ margin: "1rem auto 0" }}
           onClick={() => setShowVentEmergenteConfirmacion(true)}
-
         >
           Actualizar
         </Button>
@@ -262,7 +261,7 @@ export const EditPaciente = ({ paciente,onCloseEdit }) => {
         onClose={handleCloseVentEmergente}
         mje={
           "Esta seguro de actualizar los datos del paciente " +
-         /*  paciente?.nombre?.toUpperCase() +
+          /*  paciente?.nombre?.toUpperCase() +
           ", " +
           paciente?.apellido?.toUpperCase() + */
           " ?"

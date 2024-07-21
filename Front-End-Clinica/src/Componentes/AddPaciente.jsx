@@ -15,18 +15,17 @@ export const AddPaciente = () => {
     addPaciente,
     bandInsert,
     handleInsert,
-    showVentEmergenteConfPaciente, 
+    showVentEmergenteConfPaciente,
     setShowVentEmergenteConfPaciente,
-    handleCloseVentEmergenteConfPaciente
+    handleCloseVentEmergenteConfPaciente,
   } = useContext(PacientesContext);
 
   const [showVentEmergenteVacunas, setShowVentEmergenteVacunas] =
     useState(false);
   const [showVentEmergenteAFP, setShowVentEmergenteAFP] = useState(false);
   const [showVentEmergenteAPP, setShowVentEmergenteAPP] = useState(false);
-  const [showVentEmergenteAlergias, setShowVentEmergenteAlergias] = useState(false);
-
-
+  const [showVentEmergenteAlergias, setShowVentEmergenteAlergias] =
+    useState(false);
 
   const handleCloseVentEmergenteVacunas = () => {
     setShowVentEmergenteVacunas(false);
@@ -77,12 +76,35 @@ export const AddPaciente = () => {
           onChange={(e) => handleChangeInputInsert(e)}
         />
         <TextField
+          className={`input_edit`}
+          label="Domicilio"
+          name="domicilio"
+          variant="outlined"
+          type="text"
+          value={pacienteToInsert?.domicilio ? pacienteToInsert.domicilio : ""}
+          onChange={(e) => handleChangeInputInsert(e)}
+        />
+      </div>
+      <div className="cont_input_edit">
+        <TextField
+          className={`input_edit`}
+          label="Celular"
+          name="celular"
+          variant="outlined"
+          type="number"
+          value={pacienteToInsert?.celular ? pacienteToInsert.celular : ""}
+          onChange={(e) => handleChangeInputInsert(e)}
+        />
+
+        <TextField
           className={`input_edit `}
           label="Obra Social"
           name="obraSocial"
           variant="outlined"
           type="text"
-          value={pacienteToInsert?.obraSocial ? pacienteToInsert?.obraSocial : ""}
+          value={
+            pacienteToInsert?.obraSocial ? pacienteToInsert?.obraSocial : ""
+          }
           onChange={(e) => handleChangeInputInsert(e)}
         />
       </div>
@@ -98,31 +120,13 @@ export const AddPaciente = () => {
         />
         <TextField
           className={`input_edit`}
-          label="Domicilio"
-          name="domicilio"
-          variant="outlined"
-          type="text"
-          value={pacienteToInsert?.domicilio ? pacienteToInsert.domicilio : ""}
-          onChange={(e) => handleChangeInputInsert(e)}
-        />
-      </div>
-      <div className="cont_input_edit">
-        <TextField
-          className={`input_edit`}
           label="N° Afiliado"
           name="nroAfiliado"
           variant="outlined"
           type="number"
-          value={pacienteToInsert?.nroAfiliado ? +pacienteToInsert.nroAfiliado : 0}
-          onChange={(e) => handleChangeInputInsert(e)}
-        />
-        <TextField
-          className={`input_edit`}
-          label="Celular"
-          name="celular"
-          variant="outlined"
-          type="number"
-          value={pacienteToInsert?.celular ? pacienteToInsert.celular : ""}
+          value={
+            pacienteToInsert?.nroAfiliado ? +pacienteToInsert.nroAfiliado : 0
+          }
           onChange={(e) => handleChangeInputInsert(e)}
         />
       </div>
@@ -161,7 +165,7 @@ export const AddPaciente = () => {
           variant="contained"
           color="secondary"
           size="large"
-          onClick={()=>setShowVentEmergenteAlergias(true)}
+          onClick={() => setShowVentEmergenteAlergias(true)}
         >
           Alergias
         </Button>
@@ -203,10 +207,10 @@ export const AddPaciente = () => {
         isInsert={true}
       />
       <VentEmergenteAlergias
-      isOpen={showVentEmergenteAlergias}
-      paciente={pacienteToInsert}
-      onClose={handleCloseVentEmergenteAlergias}
-      isInsert={true}
+        isOpen={showVentEmergenteAlergias}
+        paciente={pacienteToInsert}
+        onClose={handleCloseVentEmergenteAlergias}
+        isInsert={true}
       />
     </div>
   );
