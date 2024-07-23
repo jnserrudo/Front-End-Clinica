@@ -21,7 +21,7 @@ export const VentEmergenteAddPaciente = ({isOpen,onClose}) => {
         </div>
         
         <AddPaciente />
-        <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button>
+        {/* <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button> */}
       </div>
     </div>
   )

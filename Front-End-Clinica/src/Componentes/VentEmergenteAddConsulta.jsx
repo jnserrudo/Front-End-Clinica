@@ -18,7 +18,7 @@ export const VentEmergenteAddConsulta =({isOpen,onClose}) => {
         </div>
         
         <AddConsulta />
-        <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button>
+       {/*  <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button> */}
       </div>
     </div>
   )
