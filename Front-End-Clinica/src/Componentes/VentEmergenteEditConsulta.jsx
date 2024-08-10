@@ -19,8 +19,8 @@ export const VentEmergenteEditConsulta = ({isOpen,onClose,consultaSelected,apenP
         
         {consultaSelected?<EditConsulta onCloseEdit={onClose} consulta={consultaSelected}/>:null}  
         
-        <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button>
-      </div>
+{/*         <button className={`popup-close-btn`} onClick={onClose}>Aceptar</button>
+ */}      </div>
     </div>
   )
 }
