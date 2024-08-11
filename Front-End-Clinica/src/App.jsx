@@ -2,7 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { Home } from "./pages/Home";
 import "./style.css";
 import { PacienteSection } from "./pages/PacienteSection";
@@ -17,7 +17,7 @@ function App() {
     <>
       <PacientesProvider>
         <ConsultaProvider>
-          <BrowserRouter>
+          <HashRouter>
             <Routes>
               <Route path="/" element={<Home />}></Route>
               <Route path="/paciente" element={<PacienteSection />}></Route>
@@ -32,7 +32,7 @@ function App() {
               ></Route>
               <Route path="/*" element={<></>}></Route>
             </Routes>
-          </BrowserRouter>
+          </HashRouter>
         </ConsultaProvider>
       </PacientesProvider>
     </>
