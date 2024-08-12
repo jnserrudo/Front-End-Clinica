@@ -71,9 +71,15 @@ export const AddPaciente = () => {
           label="DNI"
           name="dni"
           variant="outlined"
-          type="number"
-          value={pacienteToInsert?.dni ? pacienteToInsert.dni : 0}
-          onChange={(e) => handleChangeInputInsert(e)}
+          type="text"
+          value={pacienteToInsert?.dni || ""}
+          onChange={(e) => {
+            // Solo permitir números
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              handleChangeInputInsert(e);
+            }
+          }}
         />
         <TextField
           className={`input_edit`}
@@ -91,9 +97,15 @@ export const AddPaciente = () => {
           label="Celular"
           name="celular"
           variant="outlined"
-          type="number"
+          type="text"
           value={pacienteToInsert?.celular ? pacienteToInsert.celular : ""}
-          onChange={(e) => handleChangeInputInsert(e)}
+          onChange={(e) => {
+            // Solo permitir números
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              handleChangeInputInsert(e);
+            }
+          }}
         />
 
         <TextField
@@ -123,11 +135,17 @@ export const AddPaciente = () => {
           label="N° Afiliado"
           name="nroAfiliado"
           variant="outlined"
-          type="number"
+          type="text"
           value={
-            pacienteToInsert?.nroAfiliado ? +pacienteToInsert.nroAfiliado : 0
+            pacienteToInsert?.nroAfiliado ? +pacienteToInsert.nroAfiliado : ""
           }
-          onChange={(e) => handleChangeInputInsert(e)}
+          onChange={(e) => {
+            // Solo permitir números
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              handleChangeInputInsert(e);
+            }
+          }}
         />
       </div>
       <div className="cont_input_edit">
