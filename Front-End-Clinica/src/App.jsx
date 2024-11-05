@@ -11,6 +11,7 @@ import { ConsultorioSection } from "./pages/ConsultorioSection";
 import { PacientesProvider } from "./Contexts/PacienteContext";
 import { ConsultaSection } from "./Componentes/ConsultaSection";
 import { ConsultaProvider } from "./Contexts/ConsultaContext";
+import { Login } from "./Componentes/Login";
 
 function App() {
   return (
@@ -19,7 +20,9 @@ function App() {
         <ConsultaProvider>
           <HashRouter>
             <Routes>
-              <Route path="/" element={<Home />}></Route>
+              <Route path="/" element={<Login/>}></Route>
+              <Route path="/home" element={<Home />}></Route>
+
               <Route path="/paciente" element={<PacienteSection />}></Route>
               <Route
                 path="/paciente/:ndocu"

@@ -10,7 +10,7 @@ export const ConsultaProvider = ({children}) => {
     const [ndocuPaciente, setNdocuPaciente] = useState(0);
     const [dbSearchConsulta, setDbSearch] = useState([])
 
-    const [pacienteConsulta, setPacienteConsulta] = useState({});
+    const [pacienteConsulta, setPacienteConsulta] = useState(null);
 
     const [apenPaciente, setApenPaciente] = useState("");
 
@@ -199,6 +199,8 @@ export const ConsultaProvider = ({children}) => {
         //del paciente mas datos, como el nombre
         let paciente= await getPacienteByNdocu(consulta.pacienteDni)
 
+        console.log(paciente)
+
         setPacienteConsulta(paciente);
         setConsultaSelected(consulta);
       };
@@ -335,7 +337,8 @@ export const ConsultaProvider = ({children}) => {
     let getallconsultas = async () => {
       let consultas = await getAllConsultas(ndocuPaciente);
       console.log(consultas)
-      
+      console.log(consultas.paciente)
+      let paciente=consultas.paciente
       let apen=consultas.apen
       consultas=consultas.consultas.map((c)=>{
         return {
@@ -343,6 +346,9 @@ export const ConsultaProvider = ({children}) => {
           fecha:formatDate(c.fecha)
         }
       })
+
+      
+      setPacienteConsulta(paciente);
 
       setApenPaciente(apen)
       setDb(consultas);
@@ -359,6 +365,17 @@ export const ConsultaProvider = ({children}) => {
       }
       
     }, [ndocuPaciente]);
+  
+
+    useEffect(() => {
+
+      
+  
+      console.log("pacienteConsulta: ",pacienteConsulta);
+      if(pacienteConsulta && Object.values(pacienteConsulta).length>0){
+      }
+      
+    }, [pacienteConsulta]);
   
 
 

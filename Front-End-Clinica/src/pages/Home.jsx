@@ -3,6 +3,7 @@ import { SectionCard } from "../Componentes/SectionCard";
 import { Header } from "../Componentes/Header";
 import { Link } from "react-router-dom";
 import "../ventanaEmergente.css";
+import { Login } from "../Componentes/Login";
 
 export const Home = () => {
   return (
