@@ -134,10 +134,24 @@ export const ConsultaForm = () => {
     }
   }, [toBusq]);
 
+  const calcularEdad = (fechaNacimiento) => {
+    if (!fechaNacimiento) return "Edad desconocida"; // Manejo de casos donde no haya fecha
+    const fechaNac = new Date(fechaNacimiento);
+    const hoy = new Date();
+    let edad = hoy.getFullYear() - fechaNac.getFullYear();
+    const mes = hoy.getMonth() - fechaNac.getMonth();
+
+    if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNac.getDate())) {
+        edad--; // Restar un año si aún no ha pasado el cumpleaños
+    }
+    return edad;
+};
+
   return (
     <div className="paciente_form">
       <h2>CONSULTAS</h2>
-      <h3>{apenPaciente}</h3>
+      <h3>{apenPaciente} {pacienteConsulta?.fechaNacimiento && ` - ${calcularEdad(pacienteConsulta.fechaNacimiento)} años`}  </h3>
+
       <div className="cont_actions_form">
         <Button
           className="btn_agregar_paciente"
@@ -177,6 +191,7 @@ export const ConsultaForm = () => {
       <VentEmergenteAddConsulta
         isOpen={showVentEmergenteAddConsulta}
         onClose={handleCloseVentEmergenteAddConsulta}
+        paciente={pacienteConsulta}
       />
       {consultaSelected ? (
         <VentEmergenteEditConsulta
@@ -184,6 +199,7 @@ export const ConsultaForm = () => {
           consultaSelected={consultaSelected}
           onClose={handleCloseVentEmergenteEditConsulta}
           apenPaciente={apenPaciente}
+          paciente={pacienteConsulta}
         />
       ) : null}
 

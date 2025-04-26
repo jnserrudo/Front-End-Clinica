@@ -95,6 +95,22 @@ export const EditPaciente = ({ paciente, onCloseEdit }) => {
           value={paciente?.dni ? +paciente?.dni : 0}
           onChange={(e) => handleChangeInput(e)}
         />
+
+        <TextField
+          className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
+          name="fechaNacimiento"
+          disabled={!bandEdit}
+
+          variant="outlined"
+          type="date"
+          value={
+            paciente?.fechaNacimiento
+              ? new Date(paciente.fechaNacimiento).toISOString().split("T")[0]
+              : ""
+          }
+          onChange={(e) => handleChangeInput(e)}
+        />
+
         <TextField
           className={`input_edit ${!bandEdit ? "input_disabled" : ""}`}
           label="Domicilio"
@@ -148,6 +164,58 @@ export const EditPaciente = ({ paciente, onCloseEdit }) => {
           disabled={!bandEdit}
           value={paciente.nroAfiliado ? +paciente.nroAfiliado : 0}
           onChange={(e) => handleChangeInput(e)}
+        />
+      </div>
+      <div className="cont_input_edit">
+        <TextField
+          className={`input_edit`}
+          label="Primer Tutor"
+          name="nombrePrimerTutor"
+          variant="outlined"
+          type="text"
+          value={paciente?.nombrePrimerTutor ? paciente.nombrePrimerTutor : ""}
+          onChange={(e) => handleChangeInput(e)}
+        />
+        <TextField
+          className={`input_edit `}
+          label="DNI Primer Tutor"
+          name="dniPrimerTutor"
+          variant="outlined"
+          type="text"
+          value={paciente?.dniPrimerTutor || ""}
+          onChange={(e) => {
+            // Solo permitir números
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              handleChangeInput(e);
+            }
+          }}
+        />
+      </div>
+      <div className="cont_input_edit">
+        <TextField
+          className={`input_edit`}
+          label="Nombre Segundo Tutor"
+          name="nombreSegundoTutor"
+          variant="outlined"
+          type="text"
+          value={paciente?.nombreSegundoTutor ? paciente.nombreSegundoTutor : ""}
+          onChange={(e) => handleChangeInput(e)}
+        />
+        <TextField
+          className={`input_edit `}
+          label="DNI Segundo Tutor"
+          name="dniSegundoTutor"
+          variant="outlined"
+          type="text"
+          value={paciente?.dniSegundoTutor || ""}
+          onChange={(e) => {
+            // Solo permitir números
+            const value = e.target.value;
+            if (/^\d*$/.test(value)) {
+              handleChangeInput(e);
+            }
+          }}
         />
       </div>
       <div className="cont_input_edit">

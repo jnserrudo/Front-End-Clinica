@@ -38,7 +38,13 @@ export const insertPaciente = async (
   vacunas,
   afp,
   app,
-  alergias
+  alergias,
+  
+  fechaNacimiento,
+  nombrePrimerTutor,
+  dniPrimerTutor,
+  nombreSegundoTutor,
+  dniSegundoTutor
 ) => {
   const res = await fetch(`${entorno}/pacientes`, {
     method: "POST",
@@ -58,6 +64,12 @@ export const insertPaciente = async (
       afp,
       app,
       alergias,
+
+      fechaNacimiento,
+      nombrePrimerTutor,
+      dniPrimerTutor,
+      nombreSegundoTutor,
+      dniSegundoTutor,
     }),
   });
   const data = await res.json();

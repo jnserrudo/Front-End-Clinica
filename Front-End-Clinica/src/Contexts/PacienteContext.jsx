@@ -176,6 +176,12 @@ export const PacientesProvider = ({ children }) => {
       
     const actualizarPaciente=async(paciente)=>{
       console.log("se esta por actualizar este paciente: ",paciente)
+
+      if(paciente.fechaNacimiento){
+        paciente.fechaNacimiento=parseDate(paciente.fechaNacimiento) 
+
+      } 
+      
       const update=await updatePaciente(paciente)
       console.log("update: ",update)
     }
@@ -251,6 +257,11 @@ export const PacientesProvider = ({ children }) => {
       handleCloseVentEmergenteAddPaciente()
     }
   };
+
+  // Función para convertir una fecha en formato "DD/MM/YYYY" a un objeto Date
+  function parseDate(input) {
+    return new Date(input); // Simplemente pasamos la fecha como está, ya que JavaScript entiende el formato ISO (YYYY-MM-DD) de forma nativa
+  }
   const addPaciente = async (paciente) => {
     let insert = await insertPaciente(
       paciente.nombre,
@@ -264,11 +275,19 @@ export const PacientesProvider = ({ children }) => {
       paciente.vacunas,
       paciente.afp,
       paciente.app,
-      paciente.alergias
+      paciente.alergias,
+      
+      paciente.fechaNacimiento 
+      ? parseDate(paciente.fechaNacimiento) 
+      : null, // Si no hay fecha, dejamos null para evitar errores
+      paciente.nombrePrimerTutor,
+      paciente.dniPrimerTutor,
+      paciente.nombreSegundoTutor,
+      paciente.dniSegundoTutor
     );
     console.log(insert);
       //esto es solo de prueba para que se visualize momentaneamente el paciente agregado
-      setDb([paciente,...db])
+      if(!insert?.message)setDb([paciente,...db])//se realiza esto para evitar que se muestre al supuesto paciente agregado si hay un error
 
     return insert;
   };

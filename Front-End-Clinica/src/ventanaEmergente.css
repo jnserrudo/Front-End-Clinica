@@ -11,15 +11,28 @@
   z-index: 999;
 }
 
-.popup-content {
-  width: 80%; /* Anchura ajustable */
+/* .popup-content {
+  width: 80%;  Anchura ajustable 
   height: 80%;
-  max-width: 400px; /* Máximo ancho para evitar que se vea demasiado grande */
-  background-color: #ffffff; /* Color de fondo de la ventana emergente */
+  max-width: 400px;  Máximo ancho para evitar que se vea demasiado grande 
+  background-color: #ffffff; /* Color de fondo de la ventana emergente 
   padding: 20px;
   border-radius: 5px;
-  text-align: center; /* Alineación centrada del contenido */
+  text-align: center;  Alineación centrada del contenido 
   overflow: scroll;
+} */
+
+.popup-content {
+  width: 40vw;
+  height: 80vh;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  position: relative;
 }
 
 .popup-title {
